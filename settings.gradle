@@ -1,0 +1,5 @@
+include ':runtime'
+include ':compiler'
+include ':annotations'
+include ':app'
+rootProject.name = "EatRadish-simple"

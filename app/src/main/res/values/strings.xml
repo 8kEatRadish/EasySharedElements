@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EatRadish-simple</string>
+    <string name="goToUserActivity">goToUserActivity</string>
+    <string name="goToDetailsActivity">goToDetailsActivity</string>
+    <string name="this_is_userActivity">This is UserActivity!</string>
+    <string name="this_is_detailsActivity">This is DetailsActivity!</string>
+</resources>
