@@ -1,3 +1,4 @@
+import org.gradle.internal.jvm.Jvm
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
 
@@ -10,6 +11,8 @@ dependencies {
     //生成代码用的
     implementation 'com.squareup:javapoet:1.13.0'
     implementation 'com.squareup:kotlinpoet:1.5.0'
+
+    compileOnly files(Jvm.current().getToolsJar())
 }
 
 sourceCompatibility = "1.8"
