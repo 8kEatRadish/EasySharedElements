@@ -65,7 +65,7 @@ class BuilderProcessor : AbstractProcessor() {
             }
 
         activityClasses.values.forEach {
-            Logger.warn(it.toString())
+            it.builder.build(AptContext.filer)
         }
         return true
     }

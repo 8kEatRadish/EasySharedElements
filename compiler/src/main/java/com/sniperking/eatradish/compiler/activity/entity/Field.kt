@@ -1,5 +1,7 @@
 package com.sniperking.eatradish.compiler.activity.entity
 
+import com.bennyhuo.aptutils.types.asJavaTypeName
+import com.squareup.javapoet.TypeName
 import com.sun.tools.javac.code.Symbol
 
 open class Field(private val symbol: Symbol.VarSymbol) : Comparable<Field>{
@@ -15,6 +17,8 @@ open class Field(private val symbol: Symbol.VarSymbol) : Comparable<Field>{
     override fun toString(): String {
         return "$name:${symbol.type}"
     }
+
+    fun asJavaTypeName(): TypeName = symbol.type.asJavaTypeName()
 
     override fun compareTo(other: Field): Int {
         return name.compareTo(other.name)

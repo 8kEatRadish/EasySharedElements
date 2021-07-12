@@ -22,12 +22,15 @@ class UserActivity : AppCompatActivity() {
     @Optional(stringValue = "")
     lateinit var group: String
 
+    @Optional(stringValue = "黄色")
+    lateinit var color: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
         Toast.makeText(
             this,
-            "name : $name ; age : $age ; url : $url ; group : $group",
+            "name : $name ; age : $age ; url : $url ; group : $group ; color : $color",
             Toast.LENGTH_SHORT
         ).show()
     }
