@@ -18,7 +18,7 @@ open class Field(private val symbol: Symbol.VarSymbol) : Comparable<Field>{
         return "$name:${symbol.type}"
     }
 
-    fun asJavaTypeName(): TypeName = symbol.type.asJavaTypeName()
+    fun asJavaTypeName(): TypeName = symbol.type.asJavaTypeName().box()
 
     override fun compareTo(other: Field): Int {
         return name.compareTo(other.name)

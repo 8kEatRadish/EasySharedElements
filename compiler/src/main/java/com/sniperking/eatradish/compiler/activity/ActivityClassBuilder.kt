@@ -1,6 +1,8 @@
 package com.sniperking.eatradish.compiler.activity
 
 import com.sniperking.eatradish.compiler.activity.method.ConstantBuilder
+import com.sniperking.eatradish.compiler.activity.method.InjectMethodBuilder
+import com.sniperking.eatradish.compiler.activity.method.SaveStateMethodBuilder
 import com.sniperking.eatradish.compiler.activity.method.StartMethodBuilder
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.JavaFile
@@ -27,6 +29,10 @@ class ActivityClassBuilder(private val activityClass: ActivityClass) {
         ConstantBuilder(activityClass).build(typeBuilder)
 
         StartMethodBuilder(activityClass).build(typeBuilder)
+
+        SaveStateMethodBuilder(activityClass).build(typeBuilder)
+
+        InjectMethodBuilder(activityClass).build(typeBuilder)
 
         writeJavaToFile(filer,typeBuilder.build())
     }
