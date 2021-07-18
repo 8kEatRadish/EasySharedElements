@@ -47,4 +47,5 @@ dependencies {
     implementation project(":annotations")
     implementation project(":runtime")
     kapt project(":compiler")
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }

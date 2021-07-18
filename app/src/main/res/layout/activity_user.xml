@@ -10,11 +10,22 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:textColor="@color/black"
         android:fontFamily="@font/beautiful_words"
         android:text="@string/this_is_userActivity"
+        android:textColor="@color/black"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

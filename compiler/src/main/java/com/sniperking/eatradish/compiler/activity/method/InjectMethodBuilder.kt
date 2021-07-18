@@ -2,9 +2,8 @@ package com.sniperking.eatradish.compiler.activity.method
 
 import com.sniperking.eatradish.compiler.activity.ActivityClass
 import com.sniperking.eatradish.compiler.activity.entity.OptionalField
-import com.sniperking.eatradish.compiler.activity.prebuilt.ACTIVITY
-import com.sniperking.eatradish.compiler.activity.prebuilt.BUNDLE
-import com.sniperking.eatradish.compiler.activity.prebuilt.BUNDLE_UTILS
+import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
+import com.sniperking.eatradish.compiler.activity.prebuilt.*
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
@@ -40,19 +39,36 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
                 typeName
             }
 
-            if (field is OptionalField) {
-                injectMethodBuilder.addStatement(
-                    "\$T \$LValue = \$T.<\$T>get(extras,\$S,(\$T)\$L)", typeName, name,
-                    BUNDLE_UTILS.java, typeName, name, unBoxedTypeName,field.defaultValue
-                )
-            } else {
-                injectMethodBuilder.addStatement(
-                    "\$T \$LValue = \$T.<\$T>get(extras,\$S)", typeName, name,
-                    BUNDLE_UTILS.java, typeName, name
-                )
+            when (field) {
+                is SharedElementField -> {
+                    injectMethodBuilder.addStatement(
+                        "\$T \$LValue = \$T.<\$T>get(extras,\$S)", VIEW_ATTRS.java, name,
+                        BUNDLE_UTILS.java, VIEW_ATTRS.java, name
+                    )
+                }
+                is OptionalField -> {
+                    injectMethodBuilder.addStatement(
+                        "\$T \$LValue = \$T.<\$T>get(extras,\$S,(\$T)\$L)", typeName, name,
+                        BUNDLE_UTILS.java, typeName, name, unBoxedTypeName,field.defaultValue
+                    )
+                }
+                else -> {
+                    injectMethodBuilder.addStatement(
+                        "\$T \$LValue = \$T.<\$T>get(extras,\$S)", typeName, name,
+                        BUNDLE_UTILS.java, typeName, name
+                    )
+                }
             }
 
-            if (field.isPrivate) {
+            if (field is SharedElementField){
+
+                injectMethodBuilder.addStatement("int resId = \$LValue.getId()",name)
+
+                injectMethodBuilder.addStatement("typedInstance.\$L = (\$T)typedInstance.findViewById(resId)", name, typeName)
+
+                injectMethodBuilder.addStatement("\$T.runEnterAnim(typedInstance,\$LValue,1000)",
+                    ANIMATION_UTILS.java,name)
+            }else if (field.isPrivate) {
                 injectMethodBuilder.addStatement(
                     "typedInstance.set\$L(\$LValue)",
                     name.capitalize(),

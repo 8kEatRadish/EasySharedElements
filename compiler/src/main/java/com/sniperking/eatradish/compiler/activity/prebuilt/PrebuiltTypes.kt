@@ -7,5 +7,8 @@ val INTENT = ClassType("android.content.Intent")
 val ACTIVITY = ClassType("android.app.Activity")
 val BUNDLE = ClassType("android.os.Bundle")
 
+val VIEW_ATTRS = ClassType("com.sniperking.runtime.entity.ViewAttrs")
+val ANIMATION_UTILS = ClassType("com.sniperking.runtime.utils.AnimationUtils")
+
 val BUNDLE_UTILS = ClassType("com.sniperking.runtime.utils.BundleUtils")
 val ACTIVITY_BUILDER = ClassType("com.sniperking.runtime.ActivityBuilder")

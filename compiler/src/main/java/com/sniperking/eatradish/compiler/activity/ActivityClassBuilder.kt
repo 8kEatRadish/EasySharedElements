@@ -26,7 +26,7 @@ class ActivityClassBuilder(private val activityClass: ActivityClass) {
 
         ConstantBuilder(activityClass).build(typeBuilder)
 
-        StartMethodBuilder(activityClass).build(typeBuilder)
+//        StartMethodBuilder(activityClass).build(typeBuilder)
 
         SaveStateMethodBuilder(activityClass).build(typeBuilder)
 

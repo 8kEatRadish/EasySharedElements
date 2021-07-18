@@ -1,6 +1,7 @@
 package com.sniperking.eatradish.compiler.activity.method
 
 import com.sniperking.eatradish.compiler.activity.ActivityClass
+import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
 import com.sniperking.eatradish.compiler.activity.prebuilt.ACTIVITY
 import com.sniperking.eatradish.compiler.activity.prebuilt.BUNDLE
 import com.sniperking.eatradish.compiler.activity.prebuilt.INTENT
@@ -25,7 +26,9 @@ class SaveStateMethodBuilder(private val activityClass: ActivityClass) {
             .addStatement("\$T intent = new \$T()", INTENT.java, INTENT.java)
         activityClass.fields.forEach { field ->
             val name = field.name
-            if (field.isPrivate) {
+            if (field is SharedElementField){
+                methodBuilder.addStatement("intent.putExtra(\$S,typedInstance.getIntent().getParcelableExtra(\$S))",name,name)
+            } else if (field.isPrivate) {
                 methodBuilder.addStatement(
                     "intent.putExtra(\$S,typedInstance.get\$L())",
                     name,

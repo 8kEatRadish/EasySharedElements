@@ -6,9 +6,11 @@ import com.bennyhuo.aptutils.types.isSubTypeOf
 import com.sniperking.eatradish.annotations.Builder
 import com.sniperking.eatradish.annotations.Optional
 import com.sniperking.eatradish.annotations.Required
+import com.sniperking.eatradish.annotations.SharedElement
 import com.sniperking.eatradish.compiler.activity.ActivityClass
 import com.sniperking.eatradish.compiler.activity.entity.Field
 import com.sniperking.eatradish.compiler.activity.entity.OptionalField
+import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
 import com.sun.tools.javac.code.Symbol
 import javax.annotation.processing.AbstractProcessor
 import javax.annotation.processing.ProcessingEnvironment
@@ -61,6 +63,12 @@ class BuilderProcessor : AbstractProcessor() {
         roundEnv.getElementsAnnotatedWith(Optional::class.java).filter { it.kind == ElementKind.FIELD }
             .forEach {element ->
                 activityClasses[element.enclosingElement]?.fields?.add(OptionalField (element as Symbol.VarSymbol))
+                    ?:Logger.error(element,"Field $element annotated as Required while ${element.enclosedElements} not annotated")
+            }
+
+        roundEnv.getElementsAnnotatedWith(SharedElement::class.java).filter { it.kind == ElementKind.FIELD }
+            .forEach {element ->
+                activityClasses[element.enclosingElement]?.fields?.add(SharedElementField (element as Symbol.VarSymbol))
                     ?:Logger.error(element,"Field $element annotated as Required while ${element.enclosedElements} not annotated")
             }
 
