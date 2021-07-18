@@ -2,6 +2,7 @@ package com.sniperking.eatradish.compiler.activity.entity
 
 import com.bennyhuo.aptutils.types.asTypeMirror
 import com.sniperking.eatradish.annotations.Optional
+import com.squareup.kotlinpoet.TypeName
 import com.sun.tools.javac.code.Symbol
 import javax.lang.model.type.TypeKind
 
@@ -11,6 +12,8 @@ class OptionalField(symbol: Symbol.VarSymbol) : Field(symbol) {
         private set
 
     override val prefix: String = "OPTIONAL_"
+
+    override fun asKotlinTypeName() = super.asKotlinTypeName().copy(nullable = true)
 
     init {
         val optional = symbol.getAnnotation(Optional::class.java)

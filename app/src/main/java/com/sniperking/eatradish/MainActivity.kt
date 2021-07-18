@@ -12,10 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.goToDetailsActivity.setOnClickListener {
-            DetailsActivityBuilder.start(this, "小王很美丽", "小王", 1994, "www.google.com")
+            startDetailsActivity("小王很美丽", "小王",  url = "www.google.com")
         }
         binding.goToUserActivity.setOnClickListener {
-            UserActivityBuilder.start(this, "7岁", "小王", "黄色", "神族", "www.baidu.com")
+            startUserActivity("7岁", "小王", "黄色", "神族", "www.baidu.com")
         }
     }
 }

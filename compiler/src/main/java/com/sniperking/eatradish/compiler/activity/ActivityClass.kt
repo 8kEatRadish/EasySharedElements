@@ -18,7 +18,7 @@ class ActivityClass(val typeElement: TypeElement) {
 
     val builder = ActivityClassBuilder(this)
 
-    val isKotlin = typeElement.getAnnotation(Metadata::class.java)
+    val isKotlin = typeElement.getAnnotation(Metadata::class.java) != null
 
     override fun toString(): String {
         return "$packageName.$simpleName[${fields.joinToString()}]"

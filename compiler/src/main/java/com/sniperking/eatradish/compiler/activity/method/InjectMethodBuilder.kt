@@ -8,6 +8,7 @@ import com.sniperking.eatradish.compiler.activity.prebuilt.BUNDLE_UTILS
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
+import com.squareup.kotlinpoet.typeNameOf
 import javax.lang.model.element.Modifier
 
 class InjectMethodBuilder(private val activityClass: ActivityClass) {
@@ -33,10 +34,16 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
             val name = field.name
             val typeName = field.asJavaTypeName()
 
+            val unBoxedTypeName = if (typeName.isBoxedPrimitive){
+                typeName.unbox()
+            }else{
+                typeName
+            }
+
             if (field is OptionalField) {
                 injectMethodBuilder.addStatement(
-                    "\$T \$LValue = \$T.<\$T>get(extras,\$S,\$L)", typeName, name,
-                    BUNDLE_UTILS.java, typeName, name, field.defaultValue
+                    "\$T \$LValue = \$T.<\$T>get(extras,\$S,(\$T)\$L)", typeName, name,
+                    BUNDLE_UTILS.java, typeName, name, unBoxedTypeName,field.defaultValue
                 )
             } else {
                 injectMethodBuilder.addStatement(
