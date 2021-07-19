@@ -8,6 +8,7 @@ import com.sniperking.eatradish.annotations.Builder
 import com.sniperking.eatradish.annotations.Optional
 import com.sniperking.eatradish.annotations.Required
 import com.sniperking.eatradish.annotations.SharedElement
+import com.sniperking.runtime.utils.AnimationUtils
 
 @Builder
 class DetailsActivity : AppCompatActivity() {
@@ -37,5 +38,9 @@ class DetailsActivity : AppCompatActivity() {
                 "name : $name ; details : $details ; url : $url ; createAt : $createAt",
                 Toast.LENGTH_SHORT
         ).show()
+    }
+
+    override fun onBackPressed() {
+        AnimationUtils.runExitAnim(this,intent.getParcelableExtra("imageView"),300)
     }
 }

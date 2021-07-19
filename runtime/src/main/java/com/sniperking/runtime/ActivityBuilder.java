@@ -83,5 +83,8 @@ public class ActivityBuilder {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
+        if (context instanceof Activity){
+            ((Activity) context).overridePendingTransition(0,0);
+        }
     }
 }
