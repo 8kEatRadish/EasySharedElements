@@ -31,10 +31,11 @@ class DetailsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+        DetailsActivityBuilder.inject(this,savedInstanceState)
         Toast.makeText(
-            application,
-            "name : $name ; details : $details ; url : $url ; createAt : $createAt",
-            Toast.LENGTH_SHORT
+                application,
+                "name : $name ; details : $details ; url : $url ; createAt : $createAt",
+                Toast.LENGTH_SHORT
         ).show()
     }
 }

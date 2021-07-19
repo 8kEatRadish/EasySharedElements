@@ -1,5 +1,6 @@
 package com.sniperking.eatradish
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.Toast
@@ -27,16 +28,18 @@ class UserActivity : AppCompatActivity() {
     @Optional(stringValue = "黄色")
     lateinit var color: String
 
+    @SuppressLint("NonConstantResourceId")
     @SharedElement(name = "userImage", resId = R.id.user_image)
     lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+        UserActivityBuilder.inject(this,savedInstanceState)
         Toast.makeText(
-            application,
-            "name : $name ; age : $age ; url : $url ; group : $group ; color : $color",
-            Toast.LENGTH_SHORT
+                application,
+                "name : $name ; age : $age ; url : $url ; group : $group ; color : $color",
+                Toast.LENGTH_SHORT
         ).show()
     }
 }
