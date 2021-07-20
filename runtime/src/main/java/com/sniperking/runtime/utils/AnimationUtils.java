@@ -10,6 +10,8 @@ import android.view.animation.LinearInterpolator;
 
 import com.sniperking.runtime.entity.ViewAttrs;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -25,9 +27,54 @@ public class AnimationUtils {
         return new ViewAttrs(targetResId, view.getAlpha(), location[0], location[1], view.getWidth(), view.getHeight());
     }
 
-    public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final long duration) {
+    public interface RunEnterAnimCallBack {
+        void callBack(int state); // 0为开始； 1为结束
+    }
+
+    public static RunEnterAnimCallBack getRunEnterAnimCallBack(final Activity activity, String startMethodName, String endMethodName) {
+        RunEnterAnimCallBack runEnterAnimCallBack;
+        Method startMethod = null;
+        Method endMethod = null;
+
+        try {
+            startMethod = activity.getClass().getMethod(startMethodName);
+            endMethod = activity.getClass().getMethod(endMethodName);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+        if (startMethod == null && endMethod == null) {
+            return null;
+        }
+
+        final Method finalStartMethod = startMethod;
+        final Method finalEndMethod = endMethod;
+        runEnterAnimCallBack = new RunEnterAnimCallBack() {
+            @Override
+            public void callBack(int state) {
+                try {
+                    if (state == 0 && finalStartMethod != null) {
+                        finalStartMethod.invoke(activity);
+                    } else if (state == 1 && finalEndMethod != null) {
+                        finalEndMethod.invoke(activity);
+                    }
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        return runEnterAnimCallBack;
+    }
+
+    public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final long duration , final RunEnterAnimCallBack runEnterAnimCallBack) {
 
         flag = true;
+        if (runEnterAnimCallBack != null) {
+            runEnterAnimCallBack.callBack(0);
+        }
         for (final ViewAttrs viewAttrs : viewAttrsList) {
             final View view = activity.findViewById(viewAttrs.getId());
             if (view == null) continue;
@@ -67,6 +114,9 @@ public class AnimationUtils {
             @Override
             public void run() {
                 flag = false;
+                if (runEnterAnimCallBack != null) {
+                    runEnterAnimCallBack.callBack(1);
+                }
             }
         }, duration);
     }
