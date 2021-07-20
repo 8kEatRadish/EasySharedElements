@@ -1,5 +1,9 @@
-# Android_Apt
+# EasyShareElement(一个适用于Android全版本的共享元素动画)
 
-Annotation Processing Tool project
+## **待办事项记录**
 
-实现activity跳转以及Android全版本共享元素实现
+- [x] 使用APT实现Activity跳转参数标识，共享元素标识;
+- [ ] 使用AOP实现自动化解析注入解析参数喝退出动画方法调用;
+- [ ] 跳转动画可自定义实现
+- [ ] 添加动画执行状态回调
+- [ ] 设置动画串并行逻辑
