@@ -33,6 +33,9 @@ class UserActivity : AppCompatActivity() {
     @SharedElement(name = "userImage", resId = R.id.user_image)
     lateinit var imageView: ImageView
 
+    @SharedElement(name = "userImage2", resId = R.id.user_image2)
+    lateinit var imageView2: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
@@ -44,6 +47,6 @@ class UserActivity : AppCompatActivity() {
         ).show()
     }
     override fun onBackPressed() {
-        AnimationUtils.runExitAnim(this,intent.getParcelableExtra("imageView"),300)
+        UserActivityBuilder.runExitAnim(this,300)
     }
 }

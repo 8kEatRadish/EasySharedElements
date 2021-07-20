@@ -32,6 +32,8 @@ class ActivityClassBuilder(private val activityClass: ActivityClass) {
 
         InjectMethodBuilder(activityClass).build(typeBuilder)
 
+        RunExitAnimMethodBuilder(activityClass).build(typeBuilder)
+
         if (activityClass.isKotlin) {
             val fileBuilder =
                 FileSpec.builder(activityClass.packageName, activityClass.simpleName + POSIX)

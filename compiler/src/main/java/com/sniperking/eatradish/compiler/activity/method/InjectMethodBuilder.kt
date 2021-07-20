@@ -1,5 +1,6 @@
 package com.sniperking.eatradish.compiler.activity.method
 
+import com.bennyhuo.aptutils.types.asJavaTypeName
 import com.sniperking.eatradish.compiler.activity.ActivityClass
 import com.sniperking.eatradish.compiler.activity.entity.OptionalField
 import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
@@ -7,24 +8,19 @@ import com.sniperking.eatradish.compiler.activity.prebuilt.*
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
+import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.typeNameOf
 import javax.lang.model.element.Modifier
 
 class InjectMethodBuilder(private val activityClass: ActivityClass) {
     fun build(typeBuilder: TypeSpec.Builder) {
         val injectMethodBuilder = MethodSpec.methodBuilder("inject")
-            .addParameter(ACTIVITY.java, "instance")
+            .addParameter(activityClass.typeElement.asType().asJavaTypeName(), "instance")
             .addParameter(BUNDLE.java, "savedInstanceState")
-            .addModifiers(Modifier.PUBLIC,Modifier.STATIC)
+            .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .returns(TypeName.VOID)
-            .beginControlFlow("if(instance instanceof \$T)", activityClass.typeElement)
             .addStatement(
-                "\$T typedInstance = (\$T) instance",
-                activityClass.typeElement,
-                activityClass.typeElement
-            )
-            .addStatement(
-                "\$T extras = savedInstanceState == null ? typedInstance.getIntent().getExtras() : savedInstanceState",
+                "\$T extras = savedInstanceState == null ? instance.getIntent().getExtras() : savedInstanceState",
                 BUNDLE.java
             )
             .beginControlFlow("if(extras != null)")
@@ -33,9 +29,9 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
             val name = field.name
             val typeName = field.asJavaTypeName()
 
-            val unBoxedTypeName = if (typeName.isBoxedPrimitive){
+            val unBoxedTypeName = if (typeName.isBoxedPrimitive) {
                 typeName.unbox()
-            }else{
+            } else {
                 typeName
             }
 
@@ -45,11 +41,14 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
                         "\$T \$LValue = \$T.<\$T>get(extras,\$S)", VIEW_ATTRS.java, name,
                         BUNDLE_UTILS.java, VIEW_ATTRS.java, name
                     )
+                    injectMethodBuilder.addStatement(
+                        "VIEW_ATTRS.add(\$LValue)", name
+                    )
                 }
                 is OptionalField -> {
                     injectMethodBuilder.addStatement(
                         "\$T \$LValue = \$T.<\$T>get(extras,\$S,(\$T)\$L)", typeName, name,
-                        BUNDLE_UTILS.java, typeName, name, unBoxedTypeName,field.defaultValue
+                        BUNDLE_UTILS.java, typeName, name, unBoxedTypeName, field.defaultValue
                     )
                 }
                 else -> {
@@ -60,29 +59,38 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
                 }
             }
 
-            if (field is SharedElementField){
+            when {
+                field is SharedElementField -> {
 
-                injectMethodBuilder.addStatement("int resId = \$LValue.getId()",name)
+                    injectMethodBuilder.addStatement("int \$LResId = \$LValue.getId()", name, name)
 
-                injectMethodBuilder.addStatement("typedInstance.\$L = (\$T)typedInstance.findViewById(resId)", name, typeName)
+                    injectMethodBuilder.addStatement(
+                        "instance.\$L = (\$T)instance.findViewById(\$LResId)",
+                        name,
+                        typeName, name
+                    )
+                }
+                field.isPrivate -> {
+                    injectMethodBuilder.addStatement(
+                        "instance.set\$L(\$LValue)",
+                        name.capitalize(),
+                        name
+                    )
 
-                injectMethodBuilder.addStatement("\$T.runEnterAnim(typedInstance,\$LValue,1000)",
-                    ANIMATION_UTILS.java,name)
-            }else if (field.isPrivate) {
-                injectMethodBuilder.addStatement(
-                    "typedInstance.set\$L(\$LValue)",
-                    name.capitalize(),
-                    name
-                )
+                }
+                else -> {
+                    injectMethodBuilder.addStatement("instance.\$L = \$LValue", name, name)
 
-            } else {
-                injectMethodBuilder.addStatement("typedInstance.\$L = \$LValue", name, name)
-
+                }
             }
-
         }
 
-        injectMethodBuilder.endControlFlow().endControlFlow()
+        injectMethodBuilder.addStatement(
+            "\$T.runEnterAnim(instance,VIEW_ATTRS,1000)",
+            ANIMATION_UTILS.java
+        )
+
+        injectMethodBuilder.endControlFlow()
 
         typeBuilder.addMethod(injectMethodBuilder.build())
 

@@ -1,6 +1,7 @@
 package com.sniperking.eatradish.compiler.activity.method
 
 import com.sniperking.eatradish.compiler.activity.ActivityClass
+import com.sniperking.eatradish.compiler.activity.prebuilt.VIEW_ATTRS
 import com.sniperking.eatradish.compiler.activity.utils.camelToUnderLine
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.TypeSpec
@@ -10,6 +11,13 @@ class ConstantBuilder(private val activityClass: ActivityClass) {
 
 
     fun build(typeBuilder: TypeSpec.Builder) {
+
+        typeBuilder.addField(
+            FieldSpec.builder(
+                List::class.java, "VIEW_ATTRS", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL
+            ).initializer("new \$T<\$T>()", ArrayList::class.java, VIEW_ATTRS.java).build()
+        )
+
         activityClass.fields.forEach { field ->
             typeBuilder.addField(
                 FieldSpec.builder(

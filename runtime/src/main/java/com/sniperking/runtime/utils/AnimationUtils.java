@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator;
 
 import com.sniperking.runtime.entity.ViewAttrs;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 public class AnimationUtils {
@@ -24,38 +25,44 @@ public class AnimationUtils {
         return new ViewAttrs(targetResId, view.getAlpha(), location[0], location[1], view.getWidth(), view.getHeight());
     }
 
-    public static void runEnterAnim(Activity activity, final ViewAttrs viewAttrs, final long duration) {
-        final View view = activity.findViewById(viewAttrs.getId());
-        if (view == null) return;
+    public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final long duration) {
+
         flag = true;
-        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                view.getViewTreeObserver().removeOnPreDrawListener(this);
-                int[] location = new int[2];
-                view.getLocationOnScreen(location);
-                float srcAlpha = view.getAlpha();
+        for (final ViewAttrs viewAttrs : viewAttrsList) {
+            final View view = activity.findViewById(viewAttrs.getId());
+            if (view == null) continue;
 
-                view.setPivotX(0f);
-                view.setPivotY(0f);
-                view.setTranslationX(viewAttrs.getScreenX() - location[0]);
-                view.setTranslationY(viewAttrs.getScreenY() - location[1]);
-                view.setScaleX(viewAttrs.getWidth() * 1.0f / view.getWidth());
-                view.setScaleY(viewAttrs.getHeight() * 1.0f / view.getHeight());
-                view.setAlpha(viewAttrs.getAlpha());
+            Log.d("TAG", "runEnterAnim: view locationX = " + viewAttrs.getScreenX() + "; locationY = " + viewAttrs.getScreenY());
 
-                view.animate().alpha(srcAlpha)
-                        .translationX(0f)
-                        .translationY(0f)
-                        .scaleX(1f)
-                        .scaleY(1f)
-                        .setDuration(duration)
-                        .setInterpolator(new LinearInterpolator())
+            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    view.getViewTreeObserver().removeOnPreDrawListener(this);
+                    int[] location = new int[2];
+                    view.getLocationOnScreen(location);
+                    float srcAlpha = view.getAlpha();
+
+                    view.setPivotX(0f);
+                    view.setPivotY(0f);
+                    view.setTranslationX(viewAttrs.getScreenX() - location[0]);
+                    view.setTranslationY(viewAttrs.getScreenY() - location[1]);
+                    view.setScaleX(viewAttrs.getWidth() * 1.0f / view.getWidth());
+                    view.setScaleY(viewAttrs.getHeight() * 1.0f / view.getHeight());
+                    view.setAlpha(viewAttrs.getAlpha());
+
+                    view.animate().alpha(srcAlpha)
+                            .translationX(0f)
+                            .translationY(0f)
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .setDuration(duration)
+                            .setInterpolator(new LinearInterpolator())
 //                        .setListener(listener)
-                        .start();
-                return true;
-            }
-        });
+                            .start();
+                    return true;
+                }
+            });
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -64,35 +71,29 @@ public class AnimationUtils {
         }, duration);
     }
 
-    public static void runExitAnim(final Activity activity, final ViewAttrs viewAttrs, final long duration) {
+    public static void runExitAnim(final Activity activity, final List<ViewAttrs> viewAttrsList, final long duration) {
 
         if (flag) return;
 
-        final View view = activity.findViewById(viewAttrs.getId());
-        if (view == null) return;
+        for (ViewAttrs viewAttrs : viewAttrsList) {
+            final View view = activity.findViewById(viewAttrs.getId());
+            if (view == null) continue;
 
-        view.animate().cancel();
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            view.setPivotX(0f);
+            view.setPivotY(0f);
+            view.animate().alpha(viewAttrs.getAlpha())
+                    .translationX(viewAttrs.getScreenX() - location[0])
+                    .translationY(viewAttrs.getScreenY() - location[1])
+                    .scaleX(viewAttrs.getWidth() * 1.0f / view.getWidth())
+                    .scaleY(viewAttrs.getHeight() * 1.0f / view.getHeight())
+                    .setDuration(duration)
+                    .setInterpolator(new LinearInterpolator())
+                    .start();
+        }
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                int[] location = new int[2];
-                view.getLocationOnScreen(location);
-                view.setPivotX(0f);
-                view.setPivotY(0f);
-
-                Log.d("suihw ", "runExitAnim x = " + (viewAttrs.getScreenX() - location[0]) + "; y = " + (viewAttrs.getScreenY() - location[1]));
-
-                view.animate().alpha(viewAttrs.getAlpha())
-                        .translationX(viewAttrs.getScreenX() - location[0])
-                        .translationY(viewAttrs.getScreenY() - location[1])
-                        .scaleX(viewAttrs.getWidth() * 1.0f / view.getWidth())
-                        .scaleY(viewAttrs.getHeight() * 1.0f / view.getHeight())
-                        .setDuration(duration)
-                        .setInterpolator(new LinearInterpolator())
-                        .start();
-            }
-        }, 100);
+        viewAttrsList.clear();
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -11,12 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.goToDetailsActivity.setOnClickListener {
-//            startDetailsActivity("小王很美丽", "小王", url = "www.google.com", imageView = R.id.main_image)
-            DetailsActivityBuilder.start(this, "小王很美丽", "小王", R.id.main_image, 0, "www.google.com")
+            startDetailsActivity("小王很美丽", "小王", 0,"www.google.com",R.id.main_image,R.id.main_image2)
         }
         binding.goToUserActivity.setOnClickListener {
-//            startUserActivity("7岁", "小王", "黄色", "神族", "www.baidu.com", imageView = R.id.main_image)
-            UserActivityBuilder.start(this, "7岁", "小王", R.id.main_image, "黄色", "神族", "www.baidu.com")
+            startUserActivity("7岁", "小王", "黄色", "神族", "www.baidu.com", imageView = R.id.main_image,imageView2 = R.id.main_image2)
         }
         overridePendingTransition(0,0)
     }
