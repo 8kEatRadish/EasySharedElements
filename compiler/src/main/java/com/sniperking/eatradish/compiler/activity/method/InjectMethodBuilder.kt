@@ -42,7 +42,7 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
                         BUNDLE_UTILS.java, VIEW_ATTRS.java, name
                     )
                     injectMethodBuilder.addStatement(
-                        "VIEW_ATTRS.add(\$LValue)", name
+                        "ENTER_VIEW_ATTRS.offer(\$LValue)", name
                     )
                 }
                 is OptionalField -> {
@@ -91,7 +91,7 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
         )
 
         injectMethodBuilder.addStatement(
-            "\$T.runEnterAnim(instance,VIEW_ATTRS,1000,runEnterAnimCallBack)",
+            "\$T.runEnterAnim(instance, ENTER_VIEW_ATTRS, EXIT_VIEW_ATTRS, 1000, runEnterAnimCallBack)",
             ANIMATION_UTILS.java
         )
 

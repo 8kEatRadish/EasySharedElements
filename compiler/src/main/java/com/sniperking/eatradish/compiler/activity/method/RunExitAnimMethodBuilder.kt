@@ -6,7 +6,6 @@ import com.sniperking.eatradish.compiler.activity.prebuilt.ANIMATION_UTILS
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
-import com.squareup.kotlinpoet.asTypeName
 import javax.lang.model.element.Modifier
 
 class RunExitAnimMethodBuilder(private val activityClass: ActivityClass) {
@@ -16,7 +15,7 @@ class RunExitAnimMethodBuilder(private val activityClass: ActivityClass) {
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(activityClass.typeElement.asType().asJavaTypeName(), "instance")
             .addParameter(Long::class.java, "duration")
-            .addStatement("\$L.runExitAnim(instance,VIEW_ATTRS,duration)", ANIMATION_UTILS.java)
+            .addStatement("\$L.runExitAnim(instance, EXIT_VIEW_ATTRS, duration)", ANIMATION_UTILS.java)
 
         typeBuilder.addMethod(runExitAnimMethodBuilder.build())
 

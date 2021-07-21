@@ -2,10 +2,11 @@ package com.sniperking.eatradish.compiler.activity.method
 
 import com.sniperking.eatradish.compiler.activity.ActivityClass
 import com.sniperking.eatradish.compiler.activity.prebuilt.VIEW_ATTRS
+import com.sniperking.eatradish.compiler.activity.prebuilt.VIEW_ATTRS_COMPARATOR
 import com.sniperking.eatradish.compiler.activity.utils.camelToUnderLine
 import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.TypeSpec
-import java.lang.reflect.Method
+import java.util.*
 import javax.lang.model.element.Modifier
 
 class ConstantBuilder(private val activityClass: ActivityClass) {
@@ -15,8 +16,14 @@ class ConstantBuilder(private val activityClass: ActivityClass) {
 
         typeBuilder.addField(
             FieldSpec.builder(
-                List::class.java, "VIEW_ATTRS", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL
-            ).initializer("new \$T<\$T>()", ArrayList::class.java, VIEW_ATTRS.java).build()
+                Queue::class.java, "ENTER_VIEW_ATTRS", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL
+            ).initializer("new \$T<\$T>(new \$T())", PriorityQueue::class.java, VIEW_ATTRS.java, VIEW_ATTRS_COMPARATOR.java).build()
+        )
+
+        typeBuilder.addField(
+            FieldSpec.builder(
+                Queue::class.java, "EXIT_VIEW_ATTRS", Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL
+            ).initializer("new \$T<\$T>(new \$T())", PriorityQueue::class.java, VIEW_ATTRS.java, VIEW_ATTRS_COMPARATOR.java).build()
         )
 
         typeBuilder.addField(
