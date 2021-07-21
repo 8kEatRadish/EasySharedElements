@@ -25,10 +25,10 @@ class DetailsActivity : AppCompatActivity() {
     @Optional
     var createAt: Long = 0L
 
-    @SharedElement(name = "img", resId = R.id.details_image)
+    @SharedElement(name = "img", resId = R.id.details_image, priority = 1)
     lateinit var testImage: ImageView
 
-    @SharedElement(name = "img2", resId = R.id.details_image2)
+    @SharedElement(name = "img2", resId = R.id.details_image2, priority = 2)
     lateinit var testImage2: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

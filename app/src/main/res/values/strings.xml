@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">EasySharedElements</string>
-    <string name="goToUserActivity">goToUserActivity</string>
-    <string name="goToDetailsActivity">goToDetailsActivity</string>
+    <string name="goToUserActivity">Same-Priority</string>
+    <string name="goToDetailsActivity">Diff-Priority</string>
     <string name="this_is_userActivity">This is UserActivity!</string>
     <string name="this_is_detailsActivity">This is DetailsActivity!</string>
 </resources>
