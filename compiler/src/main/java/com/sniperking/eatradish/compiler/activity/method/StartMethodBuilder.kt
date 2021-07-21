@@ -9,7 +9,11 @@ import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
-
+/**
+ *文件: StartMethodBuilder.kt
+ *描述: 构造java跳转activity方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class StartMethodBuilder(private val activityClass: ActivityClass) {
     fun build(typeBuilder: TypeSpec.Builder) {
 

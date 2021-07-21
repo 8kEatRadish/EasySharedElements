@@ -10,7 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
-
+/**
+ *文件: ActivityBuilder.java
+ *描述: activity操作类
+ *作者: SuiHongWei 7/21/21
+ **/
 public class ActivityBuilder {
 
     public final static ActivityBuilder INSTANCE = new ActivityBuilder();
@@ -22,7 +26,7 @@ public class ActivityBuilder {
     private Application.ActivityLifecycleCallbacks activityLifecycleCallbacks = new Application.ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-            performInject(activity,savedInstanceState);
+//            performInject(activity,savedInstanceState);
         }
 
         @Override

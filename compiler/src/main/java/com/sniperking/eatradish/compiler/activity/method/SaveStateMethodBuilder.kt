@@ -9,7 +9,11 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
-
+/**
+ *文件: SaveStateMethodBuilder.kt
+ *描述: 构造保存状态方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class SaveStateMethodBuilder(private val activityClass: ActivityClass) {
     fun build(typeBuilder: TypeSpec.Builder) {
         val methodBuilder = MethodSpec.methodBuilder("saveState")

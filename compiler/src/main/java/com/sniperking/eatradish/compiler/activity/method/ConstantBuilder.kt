@@ -7,7 +7,11 @@ import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.TypeSpec
 import java.lang.reflect.Method
 import javax.lang.model.element.Modifier
-
+/**
+ *文件: ConstantBuilder.kt
+ *描述: 构造常量
+ *作者: SuiHongWei 7/21/21
+ **/
 class ConstantBuilder(private val activityClass: ActivityClass) {
 
 

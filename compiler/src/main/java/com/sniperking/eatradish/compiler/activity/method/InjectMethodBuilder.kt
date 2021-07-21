@@ -11,7 +11,11 @@ import com.squareup.javapoet.TypeSpec
 import com.squareup.kotlinpoet.asTypeName
 import com.squareup.kotlinpoet.typeNameOf
 import javax.lang.model.element.Modifier
-
+/**
+ *文件: InjectMethodBuilder.kt
+ *描述: 构造注入方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class InjectMethodBuilder(private val activityClass: ActivityClass) {
     fun build(typeBuilder: TypeSpec.Builder) {
         val injectMethodBuilder = MethodSpec.methodBuilder("inject")

@@ -1,7 +1,11 @@
 package com.sniperking.eatradish.compiler.activity.prebuilt
 
 import com.bennyhuo.aptutils.types.ClassType
-
+/**
+ *文件: PrebuiltTypes.kt
+ *描述: 定义相关类
+ *作者: SuiHongWei 7/21/21
+ **/
 val CONTEXT = ClassType("android.content.Context")
 val INTENT = ClassType("android.content.Intent")
 val ACTIVITY = ClassType("android.app.Activity")
