@@ -7,7 +7,11 @@ import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
-
+/**
+ *文件: RunExitAnimMethodBuilder.kt
+ *描述: 构造退出动画方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class RunExitAnimMethodBuilder(private val activityClass: ActivityClass) {
     fun build(typeBuilder: TypeSpec.Builder) {
         val runExitAnimMethodBuilder = MethodSpec.methodBuilder("runExitAnim")

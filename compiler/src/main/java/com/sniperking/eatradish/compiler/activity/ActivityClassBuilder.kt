@@ -7,7 +7,11 @@ import com.squareup.kotlinpoet.FileSpec
 import javax.annotation.processing.Filer
 import javax.lang.model.element.Modifier
 import javax.tools.StandardLocation
-
+/**
+ *文件: ActivityClassBuilder.kt
+ *描述: 构造activityClassBuilder方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class ActivityClassBuilder(private val activityClass: ActivityClass) {
 
     companion object {

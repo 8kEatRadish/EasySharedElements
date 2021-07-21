@@ -6,7 +6,11 @@ import com.sniperking.eatradish.compiler.activity.entity.OptionalField
 import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
 import com.sniperking.eatradish.compiler.activity.prebuilt.*
 import com.squareup.kotlinpoet.*
-
+/**
+ *文件: StartKotlinFunctionBuilder.kt
+ *描述: 构造kotlin扩展方法
+ *作者: SuiHongWei 7/21/21
+ **/
 class StartKotlinFunctionBuilder(private val activityClass: ActivityClass) {
 
     fun build(fileBuilder: FileSpec.Builder) {

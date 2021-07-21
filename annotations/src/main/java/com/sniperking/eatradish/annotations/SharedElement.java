@@ -4,7 +4,11 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
+/**
+ *文件: SharedElement.java
+ *描述: 标注需要共享的动画
+ *作者: SuiHongWei 7/21/21
+ **/
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.CLASS)
 public @interface SharedElement {

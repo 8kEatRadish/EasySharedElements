@@ -14,6 +14,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Queue;
 
+/**
+ *文件: AnimationUtils.java
+ *描述: 共享动画工具类
+ *作者: SuiHongWei 7/21/21
+ **/
 public class AnimationUtils {
 
     private static Boolean flag = false;
