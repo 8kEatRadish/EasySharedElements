@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface SharedElement {
     String name();
     int resId();
+    int priority() default 1;
 }

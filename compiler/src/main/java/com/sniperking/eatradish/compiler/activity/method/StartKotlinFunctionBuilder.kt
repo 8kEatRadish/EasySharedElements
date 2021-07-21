@@ -27,10 +27,9 @@ class StartKotlinFunctionBuilder(private val activityClass: ActivityClass) {
             when (field) {
                 is SharedElementField -> {
                     functionBuilder.addParameter(ParameterSpec.builder(fieldName, INT).build())
-                    functionBuilder.addStatement(
-                        "val %LViewAttrs = %T.getViewAttrs(this,%L,%L)",
-                        fieldName, ANIMATION_UTILS.kotlin, fieldName, field.elementTargetResId
-                    )
+                    functionBuilder.addStatement("val %LViewAttrs = %T.getViewAttrs(this, %L, %L, %L)",
+                        fieldName, ANIMATION_UTILS.kotlin, fieldName,
+                        field.elementTargetResId, field.elementPriority)
                     functionBuilder.addStatement("intent.putExtra(%S,%LViewAttrs)", fieldName,fieldName)
                 }
                 is OptionalField -> {

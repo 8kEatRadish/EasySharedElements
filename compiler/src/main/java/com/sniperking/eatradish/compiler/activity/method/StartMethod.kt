@@ -49,8 +49,9 @@ class StartMethod(private val activityClass: ActivityClass, private val name: St
             val name = field.name
             if (field is SharedElementField) {
                 methodBuilder.addParameter(TypeName.INT, name)
-                        .addStatement("\$T \$Lvalue = \$T.getViewAttrs(activity,\$L,\$L)", VIEW_ATTRS.java, name, ANIMATION_UTILS.java,
-                                name, field.elementTargetResId)
+                        .addStatement("\$T \$Lvalue = \$T.getViewAttrs(activity, \$L, \$L, \$L)",
+                            VIEW_ATTRS.java, name, ANIMATION_UTILS.java,
+                            name, field.elementTargetResId, field.elementPriority)
                         .addStatement("intent.putExtra(\$S,\$Lvalue)", name, name)
             } else {
                 methodBuilder.addParameter(field.asJavaTypeName(), name)

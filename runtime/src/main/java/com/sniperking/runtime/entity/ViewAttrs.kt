@@ -15,14 +15,16 @@ class ViewAttrs : Parcelable {
     var screenY: Int
     var width: Int
     var height: Int
+    var priority: Int
 
-    constructor(id: Int, alpha: Float, screenX: Int, screenY: Int, width: Int, height: Int) {
+    constructor(id: Int, alpha: Float, screenX: Int, screenY: Int, width: Int, height: Int, priority: Int) {
         this.id = id
         this.alpha = alpha
         this.screenX = screenX
         this.screenY = screenY
         this.width = width
         this.height = height
+        this.priority = priority
     }
 
     override fun describeContents(): Int {
@@ -36,6 +38,7 @@ class ViewAttrs : Parcelable {
         dest.writeInt(screenY)
         dest.writeInt(width)
         dest.writeInt(height)
+        dest.writeInt(priority)
     }
 
     private constructor(parcel: Parcel) {
@@ -45,6 +48,7 @@ class ViewAttrs : Parcelable {
         screenY = parcel.readInt()
         width = parcel.readInt()
         height = parcel.readInt()
+        priority = parcel.readInt()
     }
     companion object CREATOR : Parcelable.Creator<ViewAttrs> {
         override fun createFromParcel(source: Parcel): ViewAttrs {

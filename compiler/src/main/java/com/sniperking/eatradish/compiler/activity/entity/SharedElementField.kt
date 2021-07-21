@@ -11,12 +11,16 @@ class SharedElementField(symbol: Symbol.VarSymbol) : Field(symbol) {
     var elementTargetResId: Int = 0
         private set
 
+    var elementPriority: Int = 1
+        private set
+
     override val prefix: String = "SHARED_ELEMENT_"
 
     init {
         var sharedElement = symbol.getAnnotation(SharedElement::class.java)
         elementName = sharedElement.name
         elementTargetResId = sharedElement.resId
+        elementPriority = sharedElement.priority
     }
 
     override fun compareTo(other: Field): Int {
