@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sniperking.eatradish.annotations.*
 import com.sniperking.eatradish.uti.disappear
 import com.sniperking.eatradish.uti.show
+import com.sniperking.runtime.TimeInterpolatorType
 
 @Builder
 class UserActivity : AppCompatActivity() {
@@ -29,10 +30,22 @@ class UserActivity : AppCompatActivity() {
     lateinit var color: String
 
     @SuppressLint("NonConstantResourceId")
-    @SharedElement(name = "userImage", resId = R.id.user_image)
+    @SharedElement(
+        name = "userImage",
+        resId = R.id.user_image,
+        runEnterAnimDuration = 500,
+        runEnterTimeInterpolatorType = TimeInterpolatorType.OVERSHOOT_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR
+    )
     lateinit var imageView: ImageView
 
-    @SharedElement(name = "userImage2", resId = R.id.user_image2)
+    @SharedElement(
+        name = "userImage2",
+        resId = R.id.user_image2,
+        runEnterAnimDuration = 1000,
+        runEnterTimeInterpolatorType = TimeInterpolatorType.CYCLE_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.PATH_INTERPOLATOR
+    )
     lateinit var imageView2: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

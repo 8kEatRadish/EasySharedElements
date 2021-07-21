@@ -1,35 +1,35 @@
 package com.sniperking.runtime.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.sniperking.runtime.TimeInterpolatorType;
 import com.sniperking.runtime.entity.ViewAttrs;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
- *文件: AnimationUtils.java
- *描述: 共享动画工具类
- *作者: SuiHongWei 7/21/21
+ * 文件: AnimationUtils.java
+ * 描述: 共享动画工具类
+ * 作者: SuiHongWei 7/21/21
  **/
 public class AnimationUtils {
 
     private static Boolean flag = false;
 
-    public static ViewAttrs getViewAttrs(Activity activity, int ResId, int targetResId) {
+    public static ViewAttrs getViewAttrs(Activity activity, int ResId, int targetResId, long runEnterAnimDuration,long runExitAnimDuration, int runEnterAnimTimeInterpolatorType,int runExitAnimTimeInterpolatorType) {
         View view = activity.findViewById(ResId);
         if (view == null) return null;
         int[] location = new int[2];
         view.getLocationOnScreen(location);
-        return new ViewAttrs(targetResId, view.getAlpha(), location[0], location[1], view.getWidth(), view.getHeight());
+        return new ViewAttrs(targetResId, view.getAlpha(), location[0], location[1], view.getWidth(), view.getHeight(), runEnterAnimDuration,runExitAnimDuration, runEnterAnimTimeInterpolatorType,runExitAnimTimeInterpolatorType);
     }
 
     public interface RunEnterAnimCallBack {
@@ -74,16 +74,17 @@ public class AnimationUtils {
         return runEnterAnimCallBack;
     }
 
-    public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final long duration , final RunEnterAnimCallBack runEnterAnimCallBack) {
+    public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final RunEnterAnimCallBack runEnterAnimCallBack) {
 
         flag = true;
         if (runEnterAnimCallBack != null) {
             runEnterAnimCallBack.callBack(0);
         }
+        long duration = 0;
         for (final ViewAttrs viewAttrs : viewAttrsList) {
             final View view = activity.findViewById(viewAttrs.getId());
             if (view == null) continue;
-
+            duration = Math.max(duration,viewAttrs.getRunEnterAnimDuration());
             Log.d("TAG", "runEnterAnim: view locationX = " + viewAttrs.getScreenX() + "; locationY = " + viewAttrs.getScreenY());
 
             view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -107,8 +108,8 @@ public class AnimationUtils {
                             .translationY(0f)
                             .scaleX(1f)
                             .scaleY(1f)
-                            .setDuration(duration)
-                            .setInterpolator(new LinearInterpolator())
+                            .setDuration(viewAttrs.getRunEnterAnimDuration())
+                            .setInterpolator(TimeInterpolatorType.timeInterpolatorMap.get(viewAttrs.getRunEnterAnimTimeInterpolatorType()))
 //                        .setListener(listener)
                             .start();
                     return true;
@@ -126,14 +127,14 @@ public class AnimationUtils {
         }, duration);
     }
 
-    public static void runExitAnim(final Activity activity, final List<ViewAttrs> viewAttrsList, final long duration) {
+    public static void runExitAnim(final Activity activity, final List<ViewAttrs> viewAttrsList) {
 
         if (flag) return;
-
+        long duration = 0;
         for (ViewAttrs viewAttrs : viewAttrsList) {
             final View view = activity.findViewById(viewAttrs.getId());
             if (view == null) continue;
-
+            duration = Math.max(duration,viewAttrs.getRunExitAnimDuration());
             int[] location = new int[2];
             view.getLocationOnScreen(location);
             view.setPivotX(0f);
@@ -143,8 +144,8 @@ public class AnimationUtils {
                     .translationY(viewAttrs.getScreenY() - location[1])
                     .scaleX(viewAttrs.getWidth() * 1.0f / view.getWidth())
                     .scaleY(viewAttrs.getHeight() * 1.0f / view.getHeight())
-                    .setDuration(duration)
-                    .setInterpolator(new LinearInterpolator())
+                    .setDuration(viewAttrs.getRunExitAnimDuration())
+                    .setInterpolator(TimeInterpolatorType.timeInterpolatorMap.get(viewAttrs.getRunExitAnimTimeInterpolatorType()))
                     .start();
         }
 

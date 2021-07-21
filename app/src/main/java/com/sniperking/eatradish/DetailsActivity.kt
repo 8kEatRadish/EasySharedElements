@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.sniperking.eatradish.annotations.*
 import com.sniperking.eatradish.uti.disappear
 import com.sniperking.eatradish.uti.show
+import com.sniperking.runtime.TimeInterpolatorType
+import com.sniperking.runtime.utils.AnimationUtils
 
 @Builder
 class DetailsActivity : AppCompatActivity() {
@@ -25,10 +27,22 @@ class DetailsActivity : AppCompatActivity() {
     @Optional
     var createAt: Long = 0L
 
-    @SharedElement(name = "img", resId = R.id.details_image)
+    @SharedElement(
+        name = "img",
+        resId = R.id.details_image,
+        runEnterTimeInterpolatorType = TimeInterpolatorType.ANTICIPATE_OVERSHOOT_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.ANTICIPATE_INTERPOLATOR,
+        runEnterAnimDuration = 1000
+    )
     lateinit var testImage: ImageView
 
-    @SharedElement(name = "img2", resId = R.id.details_image2)
+    @SharedElement(
+        name = "img2",
+        resId = R.id.details_image2,
+        runEnterTimeInterpolatorType = TimeInterpolatorType.BOUNCE_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.DECELERATE_INTERPOLATOR,
+        runEnterAnimDuration = 500
+    )
     lateinit var testImage2: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {

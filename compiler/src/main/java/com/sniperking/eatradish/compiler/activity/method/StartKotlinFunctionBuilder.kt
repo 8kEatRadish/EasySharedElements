@@ -6,6 +6,7 @@ import com.sniperking.eatradish.compiler.activity.entity.OptionalField
 import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
 import com.sniperking.eatradish.compiler.activity.prebuilt.*
 import com.squareup.kotlinpoet.*
+
 /**
  *文件: StartKotlinFunctionBuilder.kt
  *描述: 构造kotlin扩展方法
@@ -32,10 +33,21 @@ class StartKotlinFunctionBuilder(private val activityClass: ActivityClass) {
                 is SharedElementField -> {
                     functionBuilder.addParameter(ParameterSpec.builder(fieldName, INT).build())
                     functionBuilder.addStatement(
-                        "val %LViewAttrs = %T.getViewAttrs(this,%L,%L)",
-                        fieldName, ANIMATION_UTILS.kotlin, fieldName, field.elementTargetResId
+                        "val %LViewAttrs = %T.getViewAttrs(this,%L,%L,%L,%L,%L,%L)",
+                        fieldName,
+                        ANIMATION_UTILS.kotlin,
+                        fieldName,
+                        field.elementTargetResId,
+                        field.runEnterAnimDuration,
+                        field.runExitAnimDuration,
+                        field.runEnterAnimTimeInterpolatorType,
+                        field.runExitAnimTimeInterpolatorType
                     )
-                    functionBuilder.addStatement("intent.putExtra(%S,%LViewAttrs)", fieldName,fieldName)
+                    functionBuilder.addStatement(
+                        "intent.putExtra(%S,%LViewAttrs)",
+                        fieldName,
+                        fieldName
+                    )
                 }
                 is OptionalField -> {
                     functionBuilder.addParameter(

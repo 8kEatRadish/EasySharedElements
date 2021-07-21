@@ -95,7 +95,7 @@ class InjectMethodBuilder(private val activityClass: ActivityClass) {
         )
 
         injectMethodBuilder.addStatement(
-            "\$T.runEnterAnim(instance,VIEW_ATTRS,1000,runEnterAnimCallBack)",
+            "\$T.runEnterAnim(instance,VIEW_ATTRS,runEnterAnimCallBack)",
             ANIMATION_UTILS.java
         )
 

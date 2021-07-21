@@ -14,4 +14,8 @@ import java.lang.annotation.Target;
 public @interface SharedElement {
     String name();
     int resId();
+    int runEnterTimeInterpolatorType() default 7;
+    int runExitTimeInterpolatorType() default 7;
+    long runEnterAnimDuration() default 800;
+    long runExitAnimDuration() default 800;
 }

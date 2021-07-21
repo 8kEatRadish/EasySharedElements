@@ -1,7 +1,10 @@
 package com.sniperking.runtime.entity
 
+import android.animation.TimeInterpolator
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
+import java.time.Duration
 
 /**
  *文件: ViewAttrs.kt
@@ -15,14 +18,33 @@ class ViewAttrs : Parcelable {
     var screenY: Int
     var width: Int
     var height: Int
+    var runEnterAnimDuration: Long
+    var runExitAnimDuration: Long
+    var runEnterAnimTimeInterpolatorType: Int
+    var runExitAnimTimeInterpolatorType: Int
 
-    constructor(id: Int, alpha: Float, screenX: Int, screenY: Int, width: Int, height: Int) {
+    constructor(
+        id: Int,
+        alpha: Float,
+        screenX: Int,
+        screenY: Int,
+        width: Int,
+        height: Int,
+        runEnterAnimDuration: Long = 800,
+        runExitAnimDuration: Long = 800,
+        runEnterAnimTimeInterpolatorType: Int = 0,
+        runExitAnimTimeInterpolatorType: Int = 0
+    ) {
         this.id = id
         this.alpha = alpha
         this.screenX = screenX
         this.screenY = screenY
         this.width = width
         this.height = height
+        this.runEnterAnimDuration = runEnterAnimDuration
+        this.runExitAnimDuration = runExitAnimDuration
+        this.runEnterAnimTimeInterpolatorType = runEnterAnimTimeInterpolatorType
+        this.runExitAnimTimeInterpolatorType = runExitAnimTimeInterpolatorType
     }
 
     override fun describeContents(): Int {
@@ -36,6 +58,10 @@ class ViewAttrs : Parcelable {
         dest.writeInt(screenY)
         dest.writeInt(width)
         dest.writeInt(height)
+        dest.writeLong(runEnterAnimDuration)
+        dest.writeLong(runExitAnimDuration)
+        dest.writeInt(runEnterAnimTimeInterpolatorType)
+        dest.writeInt(runExitAnimTimeInterpolatorType)
     }
 
     private constructor(parcel: Parcel) {
@@ -45,7 +71,12 @@ class ViewAttrs : Parcelable {
         screenY = parcel.readInt()
         width = parcel.readInt()
         height = parcel.readInt()
+        runEnterAnimDuration = parcel.readLong()
+        runExitAnimDuration = parcel.readLong()
+        runEnterAnimTimeInterpolatorType = parcel.readInt()
+        runExitAnimTimeInterpolatorType = parcel.readInt()
     }
+
     companion object CREATOR : Parcelable.Creator<ViewAttrs> {
         override fun createFromParcel(source: Parcel): ViewAttrs {
             return ViewAttrs(source)

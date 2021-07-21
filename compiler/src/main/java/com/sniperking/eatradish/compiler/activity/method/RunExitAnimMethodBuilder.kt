@@ -20,7 +20,7 @@ class RunExitAnimMethodBuilder(private val activityClass: ActivityClass) {
             .addModifiers(Modifier.PUBLIC, Modifier.STATIC)
             .addParameter(activityClass.typeElement.asType().asJavaTypeName(), "instance")
             .addParameter(Long::class.java, "duration")
-            .addStatement("\$L.runExitAnim(instance,VIEW_ATTRS,duration)", ANIMATION_UTILS.java)
+            .addStatement("\$L.runExitAnim(instance,VIEW_ATTRS)", ANIMATION_UTILS.java)
 
         typeBuilder.addMethod(runExitAnimMethodBuilder.build())
 

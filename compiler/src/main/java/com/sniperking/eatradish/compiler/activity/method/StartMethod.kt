@@ -34,27 +34,37 @@ class StartMethod(private val activityClass: ActivityClass, private val name: St
 
     fun build(typeBuilder: TypeSpec.Builder) {
         val methodBuilder = MethodSpec.methodBuilder(name)
-                .addModifiers(Modifier.PUBLIC)
-                .returns(TypeName.VOID)
-                .addParameter(ACTIVITY.java, "activity")
+            .addModifiers(Modifier.PUBLIC)
+            .returns(TypeName.VOID)
+            .addParameter(ACTIVITY.java, "activity")
 
         methodBuilder.addStatement(
-                "\$T intent = new \$T(activity, \$T.class)",
-                INTENT.java,
-                INTENT.java,
-                activityClass.typeElement
+            "\$T intent = new \$T(activity, \$T.class)",
+            INTENT.java,
+            INTENT.java,
+            activityClass.typeElement
         )
 
         fields.forEach { field ->
             val name = field.name
             if (field is SharedElementField) {
                 methodBuilder.addParameter(TypeName.INT, name)
-                        .addStatement("\$T \$Lvalue = \$T.getViewAttrs(activity,\$L,\$L)", VIEW_ATTRS.java, name, ANIMATION_UTILS.java,
-                                name, field.elementTargetResId)
-                        .addStatement("intent.putExtra(\$S,\$Lvalue)", name, name)
+                    .addStatement(
+                        "\$T \$Lvalue = \$T.getViewAttrs(activity,\$L,\$L,\$L,\$L,\$L,\$L)",
+                        VIEW_ATTRS.java,
+                        name,
+                        ANIMATION_UTILS.java,
+                        name,
+                        field.elementTargetResId,
+                        field.runEnterAnimDuration,
+                        field.runExitAnimDuration,
+                        field.runEnterAnimTimeInterpolatorType,
+                        field.runExitAnimTimeInterpolatorType
+                    )
+                    .addStatement("intent.putExtra(\$S,\$Lvalue)", name, name)
             } else {
                 methodBuilder.addParameter(field.asJavaTypeName(), name)
-                        .addStatement("intent.putExtra(\$S,\$L)", name, name)
+                    .addStatement("intent.putExtra(\$S,\$L)", name, name)
             }
         }
 
@@ -64,7 +74,10 @@ class StartMethod(private val activityClass: ActivityClass, private val name: St
             methodBuilder.addStatement("fillIntent(intent)")
         }
 
-        methodBuilder.addStatement("\$T.INSTANCE.startActivity(activity,intent)", ACTIVITY_BUILDER.java)
+        methodBuilder.addStatement(
+            "\$T.INSTANCE.startActivity(activity,intent)",
+            ACTIVITY_BUILDER.java
+        )
         typeBuilder.addMethod(methodBuilder.build())
     }
 }

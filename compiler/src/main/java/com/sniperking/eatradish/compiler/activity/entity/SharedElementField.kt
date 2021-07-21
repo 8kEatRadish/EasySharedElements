@@ -11,12 +11,26 @@ class SharedElementField(symbol: Symbol.VarSymbol) : Field(symbol) {
     var elementTargetResId: Int = 0
         private set
 
+    var runEnterAnimDuration: Long
+        private set
+    var runExitAnimDuration: Long
+        private set
+
+    var runEnterAnimTimeInterpolatorType: Int
+        private set
+    var runExitAnimTimeInterpolatorType: Int
+        private set
+
     override val prefix: String = "SHARED_ELEMENT_"
 
     init {
         var sharedElement = symbol.getAnnotation(SharedElement::class.java)
         elementName = sharedElement.name
         elementTargetResId = sharedElement.resId
+        runEnterAnimDuration = sharedElement.runEnterAnimDuration
+        runExitAnimDuration = sharedElement.runExitAnimDuration
+        runEnterAnimTimeInterpolatorType = sharedElement.runEnterTimeInterpolatorType
+        runExitAnimTimeInterpolatorType = sharedElement.runExitTimeInterpolatorType
     }
 
     override fun compareTo(other: Field): Int {
