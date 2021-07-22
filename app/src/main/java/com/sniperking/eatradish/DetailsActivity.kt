@@ -30,18 +30,20 @@ class DetailsActivity : AppCompatActivity() {
     @SharedElement(
         name = "img",
         resId = R.id.details_image,
-        runEnterTimeInterpolatorType = TimeInterpolatorType.ANTICIPATE_OVERSHOOT_INTERPOLATOR,
-        runExitTimeInterpolatorType = TimeInterpolatorType.ANTICIPATE_INTERPOLATOR,
-        runEnterAnimDuration = 1000
+        runEnterTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
+        runEnterAnimDuration = 1000,
+        runExitPriority = 1
     )
     lateinit var testImage: ImageView
 
     @SharedElement(
         name = "img2",
         resId = R.id.details_image2,
-        runEnterTimeInterpolatorType = TimeInterpolatorType.BOUNCE_INTERPOLATOR,
-        runExitTimeInterpolatorType = TimeInterpolatorType.DECELERATE_INTERPOLATOR,
-        runEnterAnimDuration = 500
+        runEnterTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
+        runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
+        runEnterAnimDuration = 1000,
+        runEnterPriority = 1
     )
     lateinit var testImage2: ImageView
 

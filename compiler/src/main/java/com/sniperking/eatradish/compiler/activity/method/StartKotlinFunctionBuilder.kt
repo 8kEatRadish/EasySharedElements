@@ -33,7 +33,7 @@ class StartKotlinFunctionBuilder(private val activityClass: ActivityClass) {
                 is SharedElementField -> {
                     functionBuilder.addParameter(ParameterSpec.builder(fieldName, INT).build())
                     functionBuilder.addStatement(
-                        "val %LViewAttrs = %T.getViewAttrs(this,%L,%L,%L,%L,%L,%L)",
+                        "val %LViewAttrs = %T.getViewAttrs(this,%L,%L,%L,%L,%L,%L,%L,%L)",
                         fieldName,
                         ANIMATION_UTILS.kotlin,
                         fieldName,
@@ -41,7 +41,9 @@ class StartKotlinFunctionBuilder(private val activityClass: ActivityClass) {
                         field.runEnterAnimDuration,
                         field.runExitAnimDuration,
                         field.runEnterAnimTimeInterpolatorType,
-                        field.runExitAnimTimeInterpolatorType
+                        field.runExitAnimTimeInterpolatorType,
+                        field.runEnterPriority,
+                        field.runExitPriority
                     )
                     functionBuilder.addStatement(
                         "intent.putExtra(%S,%LViewAttrs)",

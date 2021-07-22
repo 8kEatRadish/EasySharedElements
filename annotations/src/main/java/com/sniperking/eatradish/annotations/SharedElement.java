@@ -18,4 +18,6 @@ public @interface SharedElement {
     int runExitTimeInterpolatorType() default 7;
     long runEnterAnimDuration() default 800;
     long runExitAnimDuration() default 800;
+    int runEnterPriority() default 0;
+    int runExitPriority() default 0;
 }

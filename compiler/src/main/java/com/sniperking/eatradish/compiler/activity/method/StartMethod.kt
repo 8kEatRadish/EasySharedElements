@@ -50,7 +50,7 @@ class StartMethod(private val activityClass: ActivityClass, private val name: St
             if (field is SharedElementField) {
                 methodBuilder.addParameter(TypeName.INT, name)
                     .addStatement(
-                        "\$T \$Lvalue = \$T.getViewAttrs(activity,\$L,\$L,\$L,\$L,\$L,\$L)",
+                        "\$T \$Lvalue = \$T.getViewAttrs(activity,\$L,\$L,\$L,\$L,\$L,\$L,\$L,\$L)",
                         VIEW_ATTRS.java,
                         name,
                         ANIMATION_UTILS.java,
@@ -59,7 +59,9 @@ class StartMethod(private val activityClass: ActivityClass, private val name: St
                         field.runEnterAnimDuration,
                         field.runExitAnimDuration,
                         field.runEnterAnimTimeInterpolatorType,
-                        field.runExitAnimTimeInterpolatorType
+                        field.runExitAnimTimeInterpolatorType,
+                        field.runEnterPriority,
+                        field.runExitPriority
                     )
                     .addStatement("intent.putExtra(\$S,\$Lvalue)", name, name)
             } else {

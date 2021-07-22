@@ -22,6 +22,8 @@ class ViewAttrs : Parcelable {
     var runExitAnimDuration: Long
     var runEnterAnimTimeInterpolatorType: Int
     var runExitAnimTimeInterpolatorType: Int
+    var runEnterPriority: Int
+    var runExitPriority: Int
 
     constructor(
         id: Int,
@@ -33,7 +35,9 @@ class ViewAttrs : Parcelable {
         runEnterAnimDuration: Long = 800,
         runExitAnimDuration: Long = 800,
         runEnterAnimTimeInterpolatorType: Int = 0,
-        runExitAnimTimeInterpolatorType: Int = 0
+        runExitAnimTimeInterpolatorType: Int = 0,
+        runEnterPriority: Int = 0,
+        runExitPriority: Int = 0
     ) {
         this.id = id
         this.alpha = alpha
@@ -45,6 +49,8 @@ class ViewAttrs : Parcelable {
         this.runExitAnimDuration = runExitAnimDuration
         this.runEnterAnimTimeInterpolatorType = runEnterAnimTimeInterpolatorType
         this.runExitAnimTimeInterpolatorType = runExitAnimTimeInterpolatorType
+        this.runEnterPriority = runEnterPriority
+        this.runExitPriority = runExitPriority
     }
 
     override fun describeContents(): Int {
@@ -62,6 +68,8 @@ class ViewAttrs : Parcelable {
         dest.writeLong(runExitAnimDuration)
         dest.writeInt(runEnterAnimTimeInterpolatorType)
         dest.writeInt(runExitAnimTimeInterpolatorType)
+        dest.writeInt(runEnterPriority)
+        dest.writeInt(runExitPriority)
     }
 
     private constructor(parcel: Parcel) {
@@ -75,6 +83,8 @@ class ViewAttrs : Parcelable {
         runExitAnimDuration = parcel.readLong()
         runEnterAnimTimeInterpolatorType = parcel.readInt()
         runExitAnimTimeInterpolatorType = parcel.readInt()
+        runEnterPriority = parcel.readInt()
+        runExitPriority = parcel.readInt()
     }
 
     companion object CREATOR : Parcelable.Creator<ViewAttrs> {

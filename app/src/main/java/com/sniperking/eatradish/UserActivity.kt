@@ -35,7 +35,8 @@ class UserActivity : AppCompatActivity() {
         resId = R.id.user_image,
         runEnterAnimDuration = 500,
         runEnterTimeInterpolatorType = TimeInterpolatorType.OVERSHOOT_INTERPOLATOR,
-        runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR
+        runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
+        runExitPriority = 1
     )
     lateinit var imageView: ImageView
 

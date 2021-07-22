@@ -21,6 +21,11 @@ class SharedElementField(symbol: Symbol.VarSymbol) : Field(symbol) {
     var runExitAnimTimeInterpolatorType: Int
         private set
 
+    var runEnterPriority: Int
+        private set
+    var runExitPriority: Int
+        private set
+
     override val prefix: String = "SHARED_ELEMENT_"
 
     init {
@@ -31,6 +36,8 @@ class SharedElementField(symbol: Symbol.VarSymbol) : Field(symbol) {
         runExitAnimDuration = sharedElement.runExitAnimDuration
         runEnterAnimTimeInterpolatorType = sharedElement.runEnterTimeInterpolatorType
         runExitAnimTimeInterpolatorType = sharedElement.runExitTimeInterpolatorType
+        runEnterPriority = sharedElement.runEnterPriority
+        runExitPriority = sharedElement.runExitPriority
     }
 
     override fun compareTo(other: Field): Int {
