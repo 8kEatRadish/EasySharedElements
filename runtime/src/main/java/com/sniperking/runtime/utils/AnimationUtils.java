@@ -198,7 +198,6 @@ public class AnimationUtils {
         for (ViewAttrs viewAttrs : viewAttrsList) {
             priorityQueue.offer(viewAttrs);
         }
-
         long durationSum = 0, currentDuration = 0, needDelay = 0;
 
         List<ViewAttrs> samePriorityViewAttrs = new ArrayList<>();
@@ -207,7 +206,7 @@ public class AnimationUtils {
 
         while (!priorityQueue.isEmpty()) {
             if (currentPriority != priorityQueue.peek().getRunExitPriority()) {
-                handleRunExitAnim(activity, samePriorityViewAttrs, needDelay);
+                handleSamePriorityRunExitAnim(activity, samePriorityViewAttrs, needDelay);
                 durationSum += currentDuration;
                 needDelay = currentDuration;
                 currentDuration = 0;
@@ -220,7 +219,7 @@ public class AnimationUtils {
         }
 
         if (!samePriorityViewAttrs.isEmpty()) {
-            handleRunExitAnim(activity, samePriorityViewAttrs, needDelay);
+            handleSamePriorityRunExitAnim(activity, samePriorityViewAttrs, needDelay);
             durationSum += currentDuration;
         }
 
@@ -235,30 +234,32 @@ public class AnimationUtils {
         }, durationSum + 150);
     }
 
-    private static void handleRunExitAnim(final Activity activity, final List<ViewAttrs> samePriorityViewAttrs, long needDelay) {
+    private static void handleSamePriorityRunExitAnim(final Activity activity, final List<ViewAttrs> samePriorityViewAttrs, long needDelay) {
+        for (ViewAttrs viewAttrs : samePriorityViewAttrs) {
+            final View view = activity.findViewById(viewAttrs.getId());
+            if (view == null) continue;
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            view.setPivotX(0f);
+            view.setPivotY(0f);
+            handleRunExitAnim(view, viewAttrs, needDelay, location);
+        }
+    }
+
+    private static void handleRunExitAnim(final View view, final ViewAttrs viewAttrs, long needDelay, final int[] location) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                for (ViewAttrs viewAttrs : samePriorityViewAttrs) {
-
-                    Log.d(TAG, "run: view Attrs = " + new Gson().toJson(viewAttrs));
-
-                    final View view = activity.findViewById(viewAttrs.getId());
-                    if (view == null) continue;
-                    int[] location = new int[2];
-                    view.getLocationOnScreen(location);
-                    view.setPivotX(0f);
-                    view.setPivotY(0f);
-                    view.animate().alpha(viewAttrs.getAlpha())
-                            .translationX(viewAttrs.getScreenX() - location[0])
-                            .translationY(viewAttrs.getScreenY() - location[1])
-                            .scaleX(viewAttrs.getWidth() * 1.0f / view.getWidth())
-                            .scaleY(viewAttrs.getHeight() * 1.0f / view.getHeight())
-                            .setDuration(viewAttrs.getRunExitAnimDuration())
-                            .setInterpolator(TimeInterpolatorType.timeInterpolatorMap.get(viewAttrs.getRunExitAnimTimeInterpolatorType()))
-                            .start();
-                }
+                view.animate().alpha(viewAttrs.getAlpha())
+                        .translationX(viewAttrs.getScreenX() - location[0])
+                        .translationY(viewAttrs.getScreenY() - location[1])
+                        .scaleX(viewAttrs.getWidth() * 1.0f / view.getWidth())
+                        .scaleY(viewAttrs.getHeight() * 1.0f / view.getHeight())
+                        .setDuration(viewAttrs.getRunExitAnimDuration())
+                        .setInterpolator(TimeInterpolatorType.timeInterpolatorMap.get(viewAttrs.getRunExitAnimTimeInterpolatorType()))
+                        .start();
             }
-        },needDelay);
+        }, needDelay);
     }
+
 }
