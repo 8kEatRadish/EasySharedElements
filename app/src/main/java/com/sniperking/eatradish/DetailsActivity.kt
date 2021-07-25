@@ -35,7 +35,7 @@ class DetailsActivity : AppCompatActivity() {
         runEnterAnimDuration = 1000,
         runExitPriority = 1
     )
-    lateinit var testImage: ImageView
+    lateinit var princess: ImageView
 
     @SharedElement(
         name = "img2",
@@ -45,7 +45,7 @@ class DetailsActivity : AppCompatActivity() {
         runEnterAnimDuration = 1000,
         runEnterPriority = 1
     )
-    lateinit var testImage2: ImageView
+    lateinit var knight: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

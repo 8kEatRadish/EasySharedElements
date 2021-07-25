@@ -38,7 +38,7 @@ class UserActivity : AppCompatActivity() {
         runExitTimeInterpolatorType = TimeInterpolatorType.LINEAR_INTERPOLATOR,
         runExitPriority = 1
     )
-    lateinit var imageView: ImageView
+    lateinit var princess: ImageView
 
     @SharedElement(
         name = "userImage2",
@@ -47,7 +47,7 @@ class UserActivity : AppCompatActivity() {
         runEnterTimeInterpolatorType = TimeInterpolatorType.CYCLE_INTERPOLATOR,
         runExitTimeInterpolatorType = TimeInterpolatorType.PATH_INTERPOLATOR
     )
-    lateinit var imageView2: ImageView
+    lateinit var knight: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
