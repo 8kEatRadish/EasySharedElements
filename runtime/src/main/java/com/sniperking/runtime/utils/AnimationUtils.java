@@ -24,7 +24,7 @@ import java.util.PriorityQueue;
  **/
 public class AnimationUtils {
 
-    private static Boolean flag = false;
+    private static volatile Boolean flag = false;
 
     private static final String TAG = "AnimationUtils";
 
