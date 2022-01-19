@@ -1,4 +1,4 @@
-package com.sniperking.eatradish.uti
+package com.sniperking.eatradish.utils
 
 import android.view.View
 

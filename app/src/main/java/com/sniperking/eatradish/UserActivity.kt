@@ -7,8 +7,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.sniperking.eatradish.annotations.*
-import com.sniperking.eatradish.uti.disappear
-import com.sniperking.eatradish.uti.show
+import com.sniperking.eatradish.utils.disappear
+import com.sniperking.eatradish.utils.show
 import com.sniperking.runtime.TimeInterpolatorType
 
 @Builder

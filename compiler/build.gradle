@@ -1,6 +1,9 @@
 import org.gradle.internal.jvm.Jvm
+
 apply plugin: 'java-library'
 apply plugin: 'kotlin'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.8kEatRadish'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
