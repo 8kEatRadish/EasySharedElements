@@ -1,10 +1,13 @@
 package com.sniperking.runtime.utils;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.gson.Gson;
 import com.sniperking.runtime.TimeInterpolatorType;
@@ -79,6 +82,10 @@ public class AnimationUtils {
     }
 
     public static void runEnterAnim(Activity activity, final List<ViewAttrs> viewAttrsList, final RunEnterAnimCallBack runEnterAnimCallBack) {
+
+        if (viewAttrsList.isEmpty() || android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return;
+        }
 
         PriorityQueue<ViewAttrs> priorityQueue = new PriorityQueue<>(new Comparator<ViewAttrs>() {
             @Override
@@ -183,6 +190,13 @@ public class AnimationUtils {
     }
 
     public static void runExitAnim(final Activity activity, final List<ViewAttrs> viewAttrsList) {
+
+        if (viewAttrsList.isEmpty() || android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            flag = false;
+            activity.finish();
+            activity.overridePendingTransition(0, 0);
+            return;
+        }
 
         if (flag) return;
 
