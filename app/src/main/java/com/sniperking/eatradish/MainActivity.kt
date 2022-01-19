@@ -15,10 +15,9 @@ class MainActivity : AppCompatActivity() {
                 "小王很美丽",
                 "小王",
                 0,
-                "www.google.com"
-//                ,
-//                R.id.main_image2,
-//                R.id.main_image
+                "www.google.com",
+                R.id.main_image2,
+                R.id.main_image
             )
         }
         binding.goToUserActivity.setOnClickListener {
