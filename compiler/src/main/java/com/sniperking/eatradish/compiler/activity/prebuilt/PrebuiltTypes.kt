@@ -10,6 +10,7 @@ val CONTEXT = ClassType("android.content.Context")
 val INTENT = ClassType("android.content.Intent")
 val ACTIVITY = ClassType("android.app.Activity")
 val BUNDLE = ClassType("android.os.Bundle")
+val PARCELABLE = ClassType("android.os.Parcelable")
 
 val VIEW_ATTRS = ClassType("com.sniperking.runtime.entity.ViewAttrs")
 val ANIMATION_UTILS = ClassType("com.sniperking.runtime.utils.AnimationUtils")

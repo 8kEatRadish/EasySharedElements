@@ -5,10 +5,12 @@ import com.sniperking.eatradish.compiler.activity.entity.SharedElementField
 import com.sniperking.eatradish.compiler.activity.prebuilt.ACTIVITY
 import com.sniperking.eatradish.compiler.activity.prebuilt.BUNDLE
 import com.sniperking.eatradish.compiler.activity.prebuilt.INTENT
+import com.sniperking.eatradish.compiler.activity.prebuilt.PARCELABLE
 import com.squareup.javapoet.MethodSpec
 import com.squareup.javapoet.TypeName
 import com.squareup.javapoet.TypeSpec
 import javax.lang.model.element.Modifier
+
 /**
  *文件: SaveStateMethodBuilder.kt
  *描述: 构造保存状态方法
@@ -30,8 +32,13 @@ class SaveStateMethodBuilder(private val activityClass: ActivityClass) {
             .addStatement("\$T intent = new \$T()", INTENT.java, INTENT.java)
         activityClass.fields.forEach { field ->
             val name = field.name
-            if (field is SharedElementField){
-                methodBuilder.addStatement("intent.putExtra(\$S,typedInstance.getIntent().getParcelableExtra(\$S))",name,name)
+            if (field is SharedElementField) {
+                methodBuilder.addStatement(
+                    "intent.putExtra(\$S,(\$T)typedInstance.getIntent().getParcelableExtra(\$S))",
+                    name,
+                    PARCELABLE.java,
+                    name
+                )
             } else if (field.isPrivate) {
                 methodBuilder.addStatement(
                     "intent.putExtra(\$S,typedInstance.get\$L())",

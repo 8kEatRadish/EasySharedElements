@@ -44,13 +44,13 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-//    implementation project(":annotations")
-//    implementation project(":runtime")
-//    kapt project(":compiler")
+    implementation project(":annotations")
+    implementation project(":runtime")
+    kapt project(":compiler")
 
-    implementation "com.github.8kEatRadish.EasySharedElements:runtime:1.0.2"
-    implementation "com.github.8kEatRadish.EasySharedElements:annotations:1.0.2"
-    kapt "com.github.8kEatRadish.EasySharedElements:compiler:1.0.2"
+//    implementation "com.github.8kEatRadish.EasySharedElements:runtime:1.0.2"
+//    implementation "com.github.8kEatRadish.EasySharedElements:annotations:1.0.2"
+//    kapt "com.github.8kEatRadish.EasySharedElements:compiler:1.0.2"
 
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 }
